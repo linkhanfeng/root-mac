@@ -1,0 +1,10 @@
+<snippet><description>作为普通函数</description><tabTrigger>std-date 10 normal-fun</tabTrigger><scope>source.js</scope><content><![CDATA[
+/**
+ * Date对象是 JavaScript 原生的时间库。
+      它以1970年1月1日00:00:00作为时间的零点，可以表示的时间范围是前后各1亿天（单位为毫秒）。
+ * Date对象可以作为普通函数直接调用,返回一个代表当前时间的字符串.
+ */
+Date() // "Sun Nov 18 2018 20:27:19 GMT+0800 (中国标准时间)"
+// 注意,即使带有参数,Date作为普通函数使用时,返回的还是当前时间.
+Date(2000, 1, 1) // "Sun Nov 18 2018 20:27:35 GMT+0800 (中国标准时间)"
+]]></content></snippet>

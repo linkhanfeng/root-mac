@@ -1,0 +1,13 @@
+---
+description: 全局变量,要大写
+tabTrigger:  gra-style 06 global var
+scope:       source.js
+---
+/**
+ * JavaScript 最大的语法缺点，
+     可能就是全局变量对于任何一个代码块，都是可读可写。
+     这对代码的模块化和重复使用，非常不利。
+ * 因此，建议避免使用全局变量。
+     如果不得不使用，可以考虑用大写字母表示变量名，
+     这样更容易看出这是全局变量，比如UPPER_CASE。
+ */

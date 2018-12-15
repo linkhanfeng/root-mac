@@ -1,0 +1,16 @@
+<snippet><description>圆括号与空格</description><tabTrigger>gra-style 04 parentheses</tabTrigger><scope>source.js</scope><content><![CDATA[
+/**
+ * 圆括号（parentheses）在 JavaScript 中有两种作用，
+ * 一种表示函数的定义或调用，另一种表示表达式的组合（grouping）。
+ * 建议: [用空格，区分这两种不同的括号]
+ */
+// 表示表示函数的定义或调用时 函数名与左括号之间没有空格
+function foo() {}
+foo()
+
+// 其他情况都有空格
+function (x) {...} // 匿名函数需要有空格, 因为 function 是语法关键字，不是函数名
+for (var i = 3; i > 0; i--) {}
+if (true) {}
+return (a + b)
+]]></content></snippet>

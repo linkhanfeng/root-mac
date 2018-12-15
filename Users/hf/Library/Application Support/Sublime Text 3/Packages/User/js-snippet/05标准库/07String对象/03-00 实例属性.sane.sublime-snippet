@@ -1,0 +1,8 @@
+<snippet><description>实例属性</description><tabTrigger>std-str 30 instance-attr</tabTrigger><scope>source.js</scope><content><![CDATA[
+/**
+ * 实例属性只有一个 length
+ * String.prototype.length
+ */
+// 字符串实例的length属性返回字符串的长度.
+'abc'.length // 3
+]]></content></snippet>

@@ -1,0 +1,19 @@
+<snippet><description>强制转换为 bool</description><tabTrigger>gra-conv 23 Boolean()</tabTrigger><scope>source.js</scope><content><![CDATA[
+/**
+ * 转换规则相对简单：
+     除了以下五个值的转换结果为false，
+     其他的值全部为true。
+ */
+Boolean(undefined) // false
+Boolean(null) // false
+Boolean(0) // false
+Boolean(NaN) // false
+Boolean('') // false
+
+/**
+ * 注意，所有对象（包括空对象）的转换结果都是true
+ */
+Boolean({}) // true
+Boolean([]) // true
+Boolean(new Boolean(false)) // true
+]]></content></snippet>

@@ -1,0 +1,22 @@
+<snippet><description>实例属性</description><tabTrigger>std-reg 20 instance-attr</tabTrigger><scope>source.js</scope><content><![CDATA[
+/**
+ * 正则对象的 实例属性 分成两类.
+ * 一类是修饰符相关,返回一个布尔值,表示对应的修饰符是否设置.
+      RegExp.prototype.ignoreCase:返回一个布尔值,表示是否设置了i修饰符.
+      RegExp.prototype.global:返回一个布尔值,表示是否设置了g修饰符.
+      RegExp.prototype.multiline:返回一个布尔值,表示是否设置了m修饰符.
+ * 另一类是与修饰符无关的属性,主要是下面两个.
+      RegExp.prototype.lastIndex:返回一个整数,表示下一次开始搜索的位置.
+          该属性可读写,但是只在进行连续搜索时有意义,详细介绍请看后文.
+      RegExp.prototype.source:返回正则表达式的字符串形式(不包括反斜杠),该属性只读.
+ */
+// 修饰符相关的属性: 三个属性都是只读的.
+var r = /abc/igm;
+r.ignoreCase // true
+r.global // true
+r.multiline // true
+// 与修饰符无关的属性: 主要是下面两个.
+var r = /abc/igm;
+r.lastIndex // 0
+r.source // "abc"
+]]></content></snippet>

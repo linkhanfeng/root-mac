@@ -1,0 +1,13 @@
+<snippet>
+    <content><![CDATA[
+---
+description: $1
+tabTrigger:  $2
+scope:       source.js
+---
+$3
+]]></content>
+    <tabTrigger>san snippet</tabTrigger>
+    <scope></scope>
+    <description>san 模板</description>
+</snippet>

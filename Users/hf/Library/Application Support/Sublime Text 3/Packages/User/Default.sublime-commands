@@ -1,0 +1,76 @@
+[
+    {
+        "caption": "hf: file name",
+        "command": "copy_cur_file_name"
+    },
+    {
+        "caption": "hf: file name with extension",
+        "command": "copy_cur_file_name_with_extension"
+    },
+    {
+        "caption": "hf: file path",
+        "command": "copy_cur_file_path"
+    },
+    {
+        "caption": "hf: plugin test",
+        "command": "plugin_test"
+    },
+    {
+        "caption": "hf: project remove",
+        "command": "project_remove"
+    },
+    {
+        "caption": "hf: project add",
+        "command": "project_add"
+    },
+    {
+        "caption": "hf: reveal in side bar",
+        "command": "reveal_focus_side_bar"
+    },
+    {
+        "caption": "hf: open recent",
+        "command": "open_recent"
+    },
+    {
+        "caption": "hf: open file in brower",
+        "command": "open_file_in_brower"
+    },
+    {
+        "caption": "hf: insert markdown mete",
+        "command": "insert_markdown_meta"
+    },
+    {
+        "caption": "hf: new file from sel",
+        "command": "new_file_from_sel"
+    },
+    {
+        "caption": "hf: serial number from sel",
+        "command": "serial_number_from_sel"
+    },
+    {
+        "caption": "hf: format paste and indent",
+        "command": "format_paste_and_indent"
+    },
+    {
+        "caption": "hf: format from sel",
+        "command": "format_from_sel"
+    },
+    {
+        "caption": "hf: auto make catlog",
+        "command": "auto_make_catlog"
+    },
+    {
+        "caption": "hf: auto make catlog plus",
+        "command": "auto_make_catlog_plus"
+    },
+    {
+        "caption": "hf: get dir tree to clipboard",
+        "command": "get_dir_to_clipboard"
+    },
+    {
+        "caption": "hf: get info",
+        "command": "get_info"
+    }
+
+]
+

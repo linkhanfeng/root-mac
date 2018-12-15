@@ -1,0 +1,21 @@
+---
+description: 概述
+tabTrigger:  std-str 10 sum
+scope:       source.js
+---
+/**
+ * String对象是 JavaScript 原生提供的三个包装对象之一,用来生成字符串对象.
+ */
+// 1. 作为构造函数
+var s1 = 'abc';
+var s2 = new String('abc');
+typeof s1 // "string"
+typeof s2 // "object"
+s2.valueOf() // "abc"
+// 字符串对象是一个类似数组的对象(很像数组,但不是数组).
+// 下面代码中,字符串abc对应的字符串对象,有数值键(0, 1, 2)和length属性,所以可以像数组那样取值.
+new String('abc') // String {0: "a", 1: "b", 2: "c", length: 3}
+(new String('abc'))[1] // "b"
+// 2. 作为工具函数 将任意类型的值转为字符串.
+String(true) // "true"
+String(5) // "5"

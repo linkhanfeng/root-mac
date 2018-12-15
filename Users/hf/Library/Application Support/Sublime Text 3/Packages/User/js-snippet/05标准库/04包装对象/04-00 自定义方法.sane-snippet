@@ -1,0 +1,19 @@
+---
+description: 自定义方法
+tabTrigger:  std-warp 40 customize
+scope:       source.js
+---
+/**
+ * 由于自动转换的 包装对象实例 无法修改.所以想要添加属性或方法.
+ * 自定义方法: 如果要为字符串添加属性和方法,只有在它的原型对象String.prototype上定义
+      (参见《面向对象编程》章节).
+ * 比如,我们可以新增一个double方法,使得字符串和数字翻倍.
+ */
+String.prototype.double = function () {
+  return this.valueOf() + this.valueOf();
+};
+'abc'.double() // abcabc
+Number.prototype.double = function () {
+  return this.valueOf() + this.valueOf();
+};
+(123).double() // 246 在123外面必须要加上圆括号,否则后面的点运算符(.)会被解释成小数点.

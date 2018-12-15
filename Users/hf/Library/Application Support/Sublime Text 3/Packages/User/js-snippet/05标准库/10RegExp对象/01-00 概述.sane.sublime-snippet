@@ -1,0 +1,21 @@
+<snippet><description>正则概述</description><tabTrigger>std-reg 10 sum</tabTrigger><scope>source.js</scope><content><![CDATA[
+/**
+ * 正则表达式(regular expression)是一种表达文本模式(即字符串结构)的方法,
+       有点像字符串的模板,常常用来按照“给定模式”匹配文本.
+       JavaScript 的正则表达式体系是参照 Perl 5 建立的.
+ * 正则表达式有两种写法: 字面量和RegExp构造函数
+      两种写法是等价的,都新建了一个内容为xyz的正则表达式对象.它们的主要区别是:
+      第一种方法在引擎编译代码时,就会新建正则表达式,
+      第二种方法在运行时新建正则表达式,所以前者的效率较高.
+      而且,前者比较便利和直观,所以实际应用中,基本上都采用字面量定义正则表达式.
+ */
+// 新建正则表达式有两种方法.一种是使用字面量,以斜杠表示开始和结束.
+var regex = /xyz/;
+// 另一种是使用RegExp构造函数.
+var regex = new RegExp('xyz');
+// RegExp构造函数还可以接受第二个参数,表示修饰符(详细解释见下文).
+// 下面代码中,正则表达式/xyz/有一个修饰符i.
+var regex = new RegExp('xyz', 'i');
+// 等价于
+var regex = /xyz/i;
+]]></content></snippet>

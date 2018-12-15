@@ -1,0 +1,47 @@
+---
+description: 无法新增和删除
+tabTrigger:  std-attr 92 seal
+scope:       source.js
+---
+/**
+ * Object.seal()
+ * 1. 使得一个对象既无法添加新属性，也无法删除旧属性。
+ * 2. 实质是把属性描述对象的 configurable 属性设为false，因此属性描述对象不再能改变了。
+ * 3. 只是禁止新增或删除属性，并不影响修改某个属性的值.是因为属性的可写性由writable决定。
+ */
+var obj = { p: 'hello' };
+Object.seal(obj);
+
+delete obj.p;
+obj.p // "hello" 无法删除 旧属性
+obj.x = 'world';
+obj.x // undefined 无法添加 新属性
+
+// 2. 实质是把 configurable 属性设为false
+var obj = { p: 'a' };
+Object.getOwnPropertyDescriptor(obj, 'p')
+// Object { value: "a", writable: true, enumerable: true,
+//   configurable: true } // seal方法之前 configurable 为 true
+Object.seal(obj);
+// seal方法之后
+Object.getOwnPropertyDescriptor(obj, 'p')
+// Object { value: "a", writable: true, enumerable: true,
+//   configurable: false } // seal方法之后 configurable 为 false
+
+// 3. 只是禁止新增或删除属性，并不影响修改某个属性的值.是因为属性的可写性由writable决定。
+var obj = { p: 'a' };
+Object.seal(obj);
+obj.p = 'b';
+obj.p // 'b'
+
+/**
+ * Object.isSealed()
+ * 用于检查一个对象是否使用了Object.seal方法。
+ * isSealed 返回 true 时,isExtensible必然也是 false(不可新增)
+ */
+var obj = { p: 'a' };
+
+Object.seal(obj);
+Object.isSealed(obj) // true
+
+Object.isExtensible(obj) // false 这时，Object.isExtensible方法也返回false。

@@ -1,0 +1,51 @@
+---
+description: 定义属性及属性meta
+tabTrigger:  std-attr 40 defineProperty
+scope:       source.js
+---
+/**
+ * Object.defineProperty()，Object.defineProperties()
+ * 定义一个属性,和它的元数据
+ * Object.defineProperty()方法允许通过属性描述对象，定义或修改一个属性，然后返回修改后的对象，它的用法如下。
+      Object.defineProperty(object, propertyName, attributesObject)
+ * Object.defineProperty方法接受三个参数，依次如下。
+      object：属性所在的对象
+      propertyName：字符串，表示属性名
+      attributesObject：属性描述对象
+ */
+
+/**
+ * 例如: 给 obj 增加一个属性 p;
+    Object.defineProperty方法的第一个参数是{}（一个新建的空对象），p属性直接定义在这个空对象上面，
+    然后返回这个对象，这是Object.defineProperty()的常见用法。
+    如果属性已经存在，Object.defineProperty()方法相当于更新该属性的属性描述对象
+ */
+var obj = Object.defineProperty({}, 'p', {
+  value: 123,
+  writable: false, // 不可写
+  enumerable: true,
+  configurable: false
+});
+
+obj.p // 123
+obj.p = 246;
+obj.p // 123 因为定义属性时设置了 writable
+
+/**
+ * 如果一次性定义或修改多个属性，可以使用Object.defineProperties()方法。
+ * p3属性定义了取值函数get，即每次读取该属性，都会调用这个取值函数。
+    注意，一旦定义了取值函数get（或存值函数set），就不能将writable属性设为true，或者同时定义value属性，否则会报错。
+ */
+var obj = Object.defineProperties({}, {
+  p1: { value: 123, enumerable: true },
+  p2: { value: 'abc', enumerable: true },
+  p3: { get: function () { return this.p1 + this.p2 },
+    writable:false, // 默认为 false 定义get或set时 writable不能设置为true且value不能同时定义
+    enumerable:true,
+    configurable:true
+  }
+});
+
+obj.p1 // 123
+obj.p2 // "abc"
+obj.p3 // "123abc"

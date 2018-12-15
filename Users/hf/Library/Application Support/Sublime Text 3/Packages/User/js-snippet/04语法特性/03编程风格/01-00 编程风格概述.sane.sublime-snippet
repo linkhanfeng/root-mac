@@ -1,0 +1,11 @@
+<snippet><description>编程风格概述</description><tabTrigger>gra-style 01 sum</tabTrigger><scope>source.js</scope><content><![CDATA[
+/**
+ * ”编程风格“（programming style）指的是编写代码的样式规则。
+     不同的程序员，往往有不同的编程风格。
+ * 编译器的规范叫做”语法规则“（grammkar），这是程序员必须遵守的；
+     而编译器忽略的部分，就叫”编程风格“（programming style），这是程序员可以自由选择的。
+ * 好的编程风格有助于写出质量更高、错误更少、更易于维护的程序。对于 JavaScript 这种语法自由度很高的语言尤其重要
+ * 必须牢记的一点是，如果你选定了一种“编程风格”，就应该坚持遵守，切忌多种风格混用。
+ * 如果你加入他人的项目，就应该遵守现有的风格。
+ */
+]]></content></snippet>

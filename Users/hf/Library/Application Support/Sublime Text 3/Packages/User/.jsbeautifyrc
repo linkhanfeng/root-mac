@@ -1,0 +1,13 @@
+{
+  "all":
+  {
+    "indent_size": 2,
+  },
+  "js":
+  {
+    "space_after_anon_function": true,
+    "space_before_conditional": true,
+    "space_in_paren": false,
+    // "break_chained_methods": true,
+  },
+}

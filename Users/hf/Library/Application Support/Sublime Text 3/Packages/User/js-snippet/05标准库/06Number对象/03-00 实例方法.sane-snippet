@@ -1,0 +1,66 @@
+---
+description: 实例方法
+tabTrigger:  std-num 30 instance-fun
+scope:       source.js
+---
+/**
+ * Number对象 有4个实例方法,都跟将数值转换成指定格式有关.
+ */
+/**
+ * 1. Number.prototype.toString()
+ * Number对象部署了自己的toString方法,
+      (即:覆盖了对象默认的 toString方法)用来将一个数值转为字符串形式.
+ * toString方法可以接受一个参数,表示输出的进制.
+      如果省略这个参数,默认将数值先转为十进制,再输出字符串;
+      否则,就根据参数指定的进制,将一个数字转化成某个进制的字符串.
+ * toString方法只能将十进制的数,转为其他进制的字符串.
+      如果要将其他进制的数,转回十进制,需要使用parseInt方法.
+ */
+// 下面代码中,10一定要放在括号里,这样表明后面的点表示调用对象属性.
+// 如果不加括号,这个点会被 JavaScript 引擎解释成小数点,从而报错.
+(10).toString() // "10"
+(10).toString(2) // "1010"
+(10).toString(8) // "12"
+(10).toString(16) // "a"
+// 10.toString(2) // SyntaxError: Unexpected token ILLEGAL
+// 只要能够让 JavaScript 引擎不混淆小数点和对象的点运算符,各种写法都能用.
+// 除了为10加上括号,还可以在10后面加两个点,JavaScript 会把第一个点理解成小数点(即10.0),
+// 把第二个点理解成调用对象属性,从而得到正确结果.
+10..toString(2) // "1010"
+// 其他方法还包括
+10 .toString(2) // "1010"
+10.0.toString(2) // "1010"
+// 这实际上意味着,可以直接对一个小数使用toString方法.
+10.5.toString() // "10.5"
+// 通过方括号运算符也可以调用toString方法.
+10['toString'](2) // "1010"
+/**
+ * 2. Number.prototype.toFixed()
+ * toFixed方法先将一个数转为指定位数的小数,然后返回这个小数对应的字符串.
+ * toFixed方法的参数为小数位数,有效范围为0到20,超出这个范围将抛出 RangeError 错误.
+ */
+(10).toFixed(2) // "10.00"
+10.005.toFixed(2) // "10.01"
+/**
+ * 3. Number.prototype.toExponential()
+ * toExponential方法用于将一个数转为科学计数法形式.
+ * toExponential方法的参数是小数点后有效数字的位数,范围为0到20,超出这个范围,会抛出一个 RangeError 错误.
+ */
+(1234).toExponential()  // "1.234e+3"
+(1234).toExponential(1) // "1.2e+3"
+(1234).toExponential(2) // "1.23e+3"
+/**
+ * 4. Number.prototype.toPrecision()
+ * toPrecision方法用于将一个数转为指定位数的有效数字.
+ * toPrecision方法的参数为有效数字的位数,范围是1到21,超出这个范围会抛出 RangeError 错误.
+ */
+(12.34).toPrecision(1) // "1e+1"
+(12.34).toPrecision(2) // "12"
+(12.34).toPrecision(3) // "12.3"
+(12.34).toPrecision(4) // "12.34"
+(12.34).toPrecision(5) // "12.340"
+// toPrecision方法用于四舍五入时不太可靠,跟浮点数不是精确储存有关.
+(12.35).toPrecision(3) // "12.3"
+(12.25).toPrecision(3) // "12.3"
+(12.15).toPrecision(3) // "12.2"
+(12.45).toPrecision(3) // "12.4"

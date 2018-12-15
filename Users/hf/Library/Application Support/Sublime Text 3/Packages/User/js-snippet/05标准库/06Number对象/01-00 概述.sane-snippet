@@ -1,0 +1,15 @@
+---
+description: 概述
+tabTrigger:  std-num 10 sum
+scope:       source.js
+---
+/**
+ * Number对象是数值对应的包装对象,
+      作为构造函数时,它用于生成值为数值的对象.
+      作为工具函数时,它可以将任何类型的值转为数值.
+ */
+// 作为构造函数使用,返回一个值为1的对象.
+var n = new Number(1);
+typeof n // "object"
+// 作为工具函数,将布尔值true转为数值1. 详见《数据类型转换》一章.
+Number(true) // 1

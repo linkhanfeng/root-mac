@@ -1,0 +1,30 @@
+---
+description: 变量声明,到头部
+tabTrigger:  gra-style 07 var declarations
+scope:       source.js
+---
+/**
+ * JavaScript 会自动将变量声明”提升“（hoist）到代码块（block）的头部。
+ * 这意味着，变量x是if代码块之前就存在了。
+ *
+ * 为了避免可能出现的问题，最好把变量声明都放在代码块的头部。
+ * 函数内部的变量声明，也都应该放在函数的头部.
+ */
+if (!x) {
+  var x = {};
+}
+
+// 等同于 (推荐写法)
+var x;
+if (!x) {
+  x = {};
+}
+
+// 例2:
+for (var i = 0; i < 10; i++) {
+}
+
+// 等同于 (推荐写法)
+var i;
+var for (i = 0; i <10; i++) {
+}

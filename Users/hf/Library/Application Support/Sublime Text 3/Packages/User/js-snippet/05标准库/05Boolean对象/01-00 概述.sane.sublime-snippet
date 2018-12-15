@@ -1,0 +1,19 @@
+<snippet><description>概述</description><tabTrigger>std-bool 10 sum</tabTrigger><scope>source.js</scope><content><![CDATA[
+/**
+ * Boolean对象是 JavaScript 的三个包装对象之一. 作为函数有两种用法
+ * 用法相似,语义不同:且返回值不同,详见下一节
+      构造函数, new Boolean(true) 语义:表示新生成一个对象,它的值是true.
+      工具函数, Boolean(true), 语义:将 true 转换为对象形式
+ */
+// 作为构造函数, 它主要用于生成布尔值的包装对象实例
+var b = new Boolean(true);
+typeof b // "object"
+b.valueOf() // true
+// 注意,false对应的包装对象实例,布尔运算结果也是true.
+if (new Boolean(false)) {
+  console.log('true');
+} // true 因为所有对象 对应的布尔值都是true
+if (new Boolean(false).valueOf()) {
+  console.log('true');
+} // 无输出
+]]></content></snippet>

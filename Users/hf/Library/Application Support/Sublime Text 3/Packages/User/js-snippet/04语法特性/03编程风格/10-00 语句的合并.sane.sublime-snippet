@@ -1,0 +1,15 @@
+<snippet><description>语句合并不推荐</description><tabTrigger>gra-style 10 statement merge</tabTrigger><scope>source.js</scope><content><![CDATA[
+/**
+ * 建议: [不要将不同目的的语句，合并成一行]
+ */
+虽然语句少了一行，但是可读性大打折扣，而且会造成误读，让别人误解这行代码的意思是下面这样。
+// 有些程序员追求简洁，喜欢合并不同目的的语句。比如，原来的语句是
+a = b;
+if (a) { ... }
+
+// 他喜欢写成下面这样。
+if (a = b) { ... }
+
+// 虽然语句少了一行，但是可读性大打折扣，而且会造成误读，让别人误解这行代码的意思是下面这样。
+if （a === b）{ ... }
+]]></content></snippet>

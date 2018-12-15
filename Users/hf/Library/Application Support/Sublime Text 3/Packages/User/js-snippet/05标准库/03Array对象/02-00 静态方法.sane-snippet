@@ -1,0 +1,12 @@
+---
+description: 静态方法
+tabTrigger:  std-arr 200 static-fun
+scope:       source.js
+---
+/**
+ * Array.isArray()
+ * 返回一个布尔值，表示参数是否为数组。它可以弥补typeof运算符的不足。
+ */
+var arr = [1, 2, 3];
+typeof arr // "object"
+Array.isArray(arr) // true

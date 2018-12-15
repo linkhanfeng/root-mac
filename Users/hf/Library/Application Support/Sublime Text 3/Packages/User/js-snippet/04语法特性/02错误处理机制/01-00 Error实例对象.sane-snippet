@@ -1,0 +1,43 @@
+---
+description: Error 实例对象
+tabTrigger:  gra-error 10 Error
+scope:       source.js
+---
+/**
+ * name和message属性
+ * JavaScript 解析或运行时，一旦发生错误，引擎就会抛出一个错误对象。
+ *     JavaScript 原生提供 Error构造函数，所有抛出的错误都是这个构造函数的实例。
+ */
+// Error 有 1 个标注属性, 2 个非标注属性
+var err = new Error('出错了');
+err.message // "出错了"
+err.name // "Error"（非标准属性）
+err.stack // "@debugger eval code:1:11" （非标准属性）
+
+/**
+ * 使用name和message这两个属性，可以对发生什么错误有一个大概的了解。
+ */
+if (error.name) {
+  console.log(error.name + ': ' + error.message);
+}
+
+/**
+ * 使用stack属性用来查看错误发生时的堆栈。
+ */
+// 例子:
+function throwit() {
+  throw new Error('抛出错误后,如果没有使用try...catch结构就会终止程序执行');
+}
+
+function catchit() {
+  console.log(111)
+  try {
+    throwit();
+  } catch(e) {
+    console.log(e.stack); // print stack trace
+  }
+  throwit(); // Error: 抛出错误后 如果没有 try...catch 就会终止程序执行
+  console.log(2222) // 不会执行之后的代码
+}
+
+catchit()

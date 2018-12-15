@@ -1,0 +1,76 @@
+<snippet><description>6种原生错误类型</description><tabTrigger>gra-error 20 native errType</tabTrigger><scope>source.js</scope><content><![CDATA[
+/**
+ * Error实例对象是最一般的错误类型，在它的基础上，JavaScript 还定义了其他6种错误对象
+ * 也就是说，存在Error的6个派生对象。
+     SyntaxError 对象是解析代码时发生的语法错误
+     ReferenceError 对象是引用一个不存在的变量时发生的错误
+     RangeError 对象是一个值超出有效范围时发生的错误
+     TypeError 对象是变量或参数不是预期类型时发生的错误
+     URIError 对象是 URI 相关函数的参数不正确时抛出的错误
+     EvalError eval函数没有被正确执行时
+ */
+
+/**
+ * 以上这6种派生错误，连同原始的Error对象，都是构造函数。
+ * 开发者可以使用它们，手动生成错误对象的实例。这些构造函数都接受一个参数，代表错误提示信息（message）。
+ */
+var err1 = new Error('出错了！');
+var err2 = new RangeError('出错了，变量超出有效范围！');
+var err3 = new TypeError('出错了，变量类型无效！');
+
+err1.message // "出错了！"
+err2.message // "出错了，变量超出有效范围！"
+err3.message // "出错了，变量类型无效！"
+
+/**
+ * 1. SyntaxError 对象是解析代码时发生的语法错误。
+ * 下面代码的错误，都是在语法解析阶段就可以发现，所以会抛出SyntaxError
+ */
+var 1a; // SyntaxError:... 变量名错误
+console.log 'hello') // SyntaxError:... 函数缺少括号
+
+/**
+ * 2. ReferenceError 对象是引用一个不存在的变量时发生的错误。
+ * 主要几种情况
+     1. 引用一个不存在的变量
+     2. 另一种触发场景是，将一个值分配给无法分配的对象，比如对函数的运行结果或者this赋值。
+ */
+unknownVariable // Uncaught ReferenceError: unknownVariable is not defined
+
+// 等号左侧不是变量
+console.log() = 1 // Uncaught ReferenceError: Invalid left-hand side in assignment
+// this 对象不能手动赋值
+this = 1 // ReferenceError: Invalid left-hand side in assignment
+// 上面代码对函数console.log的运行结果和this赋值，结果都引发了ReferenceError错误。
+
+/**w
+ * 3. RangeError 对象是一个值超出有效范围时发生的错误。
+ * 主要几种情况
+     1. 数组长度为负数
+     2. Number对象的方法参数超出范围，以及函数堆栈超过最大值。
+ */
+new Array(-1) // 数组长度不得为负数 RangeError: invalid array length
+
+/**
+ * 4. TypeError 对象是变量或参数不是预期类型时发生的错误。
+ * 主要几种情况:
+     1. 对字符串、布尔值、数值等原始类型的值使用new命令，就会抛出这种错误，因为new命令的参数应该是一个构造函数。
+     2. 调用对象不存在的方法，也会抛出TypeError错误，
+ */
+new 123 // TypeError: 123 is not a constructor
+// 因为obj.unknownMethod的值是undefined，而不是一个函数。
+var obj = {};
+obj.unknownMethod()
+
+/**
+ * 5. URIError 对象是 URI 相关函数的参数不正确时抛出的错误，
+ * 主要涉及encodeURI()、decodeURI()、encodeURIComponent()、
+     decodeURIComponent()、escape()和unescape()这六个函数。
+ */
+decodeURI('%2') // URIError: URI malformed
+
+/**
+ * 6. EvalError eval函数没有被正确执行时
+ * 该错误类型已经不再使用了，只是为了保证与以前代码兼容，才继续保留。
+ */
+]]></content></snippet>

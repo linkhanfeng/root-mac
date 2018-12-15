@@ -1,0 +1,20 @@
+<snippet><description>对象的值</description><tabTrigger>std-obj 51 valueOf()</tabTrigger><scope>source.js</scope><content><![CDATA[
+/**
+ * 1. valueOf 方法的作用是返回一个对象的“值”，默认情况下返回对象本身。
+ */
+var obj = new Object();
+obj.valueOf() === obj
+/**
+ * 2. valueOf方法的主要用途是，JavaScript 自动类型转换时会默认调用这个方法（详见《数据类型转换》一章）。
+ * 所以，如果自定义valueOf方法，就可以得到想要的结果。
+ */
+1 + obj; // "1[object Object]"
+
+var obj = new Object();
+// 这种方法就相当于用自定义的obj.valueOf，覆盖Object.prototype.valueOf。
+obj.valueOf = function () {
+  return 2;
+};
+
+1 + obj // 3
+]]></content></snippet>

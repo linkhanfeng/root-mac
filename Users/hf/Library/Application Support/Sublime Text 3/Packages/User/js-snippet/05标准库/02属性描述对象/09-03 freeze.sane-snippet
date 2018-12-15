@@ -1,0 +1,41 @@
+---
+description: 无法新增,删除,和修改
+tabTrigger:  std-attr 93 freeze
+scope:       source.js
+---
+/**
+ * Object.freeze()
+ * 可以使一个对象无法添加新属性、无法删除旧属性、也无法改变属性的值，
+       使得这个对象实际上变成了常量。
+ * 下面的代码对obj对象进行Object.freeze()以后，修改属性、新增属性、删除属性都无效了。
+       这些操作并不报错，只是默默地失败。如果在严格模式下，则会报错。
+ */
+var obj = {p: 'hello' };
+Object.freeze(obj);
+
+obj.p = 'world';
+obj.p // "hello" 无法更新
+obj.t = 'hello';
+obj.t // undefined 无法新增
+delete obj.p // false 无法删除
+
+/**
+ * Object.isFrozenia()
+ * 用于检查一个对象是否使用了 Object.freeze 方法。
+ * 使用 Object.freeze 方法以后，Object.isSealed 将会返回true，Object.isExtensible 返回 false。
+       因为三者是包含关系, freeze > seal > preventExtensions
+ * 另一个用途是，确认某个对象没有被冻结后，再对它的属性赋值。
+ */
+var obj = { p: 'hello' };
+Object.freeze(obj);
+Object.isFrozen(obj) // true
+Object.isSealed(obj) // true
+Object.isExtensible(obj) // false
+
+// 下面的代码中，确认obj没有被冻结后，再对它的属性赋值，就不会报错了。
+var obj = { p: 'hello' };
+Object.freeze(obj);
+if (!Object.isFrozen(obj)) {
+  obj.p = 'world';
+}
+

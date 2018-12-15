@@ -1,0 +1,28 @@
+---
+description: 返回值的字符串形式
+tabTrigger:  std-obj 54 toLocaleStr
+scope:       source.js
+---
+/**
+ * Object.prototype.toLocaleString方法与toString的返回结果相同，也是返回一个值的字符串形式。
+ */
+var obj = {};
+obj.toString(obj) // "[object Object]"
+obj.toLocaleString(obj) // "[object Object]"
+
+/**
+ * 这个方法的主要作用是留出一个接口，让各种不同的对象实现自己版本的toLocaleString，
+     用来返回针对某些地域的特定的值。
+     目前，主要有三个对象自定义了toLocaleString方法。
+ */
+    Array.prototype.toLocaleString()
+    Number.prototype.toLocaleString()
+    Date.prototype.toLocaleString()
+
+/**
+ * 举例来说，日期的实例对象的toString和toLocaleString返回值就不一样，
+     而且toLocaleString的返回值跟用户设定的所在地域相关。
+ */
+var date = new Date();
+date.toString() // "Sat Nov 10 2018 11:12:34 GMT+0800 (中国标准时间)"
+date.toLocaleString() // "2018/11/10 上午11:12:34"

@@ -1,0 +1,12 @@
+<snippet><description>日期的运算</description><tabTrigger>std-date 30 operation</tabTrigger><scope>source.js</scope><content><![CDATA[
+/**
+ * 类型自动转换时,Date实例如果转为数值,则等于对应的毫秒数;
+      如果转为字符串,则等于对应的日期字符串.
+      所以,两个日期实例对象进行减法运算时,返回的是它们间隔的毫秒数;
+      进行加法运算时,返回的是两个字符串连接而成的新字符串.
+ */
+var d1 = new Date(2000, 2, 1);
+var d2 = new Date(2000, 3, 1);
+d2 - d1 // 2678400000
+d2 + d1 // "Sat Apr 01 2000 00:00:00 GMT+0800 (中国标准时间)Wed Mar 01 2000 00:00:00 GMT+0800 (中国标准时间)"
+]]></content></snippet>

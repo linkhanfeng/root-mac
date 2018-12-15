@@ -1,0 +1,109 @@
+---
+description: 实例方法
+tabTrigger:  std-reg 30 instance-fun
+scope:       source.js
+---
+/**
+ * 1. RegExp.prototype.test()
+ * 正则实例对象的test方法返回一个布尔值,表示当前模式是否能匹配参数字符串.
+ */
+// 下面代码验证参数字符串之中是否包含cat,结果返回true.
+/cat/.test('cats and dogs') // true
+// 如果正则表达式带有g修饰符,则每一次test方法都从上一次结束的位置开始向后匹配.
+// 下面代码的正则表达式使用了g修饰符,表示是全局搜索,会有多个结果.
+// 接着,三次使用test方法,每一次开始搜索的位置都是上一次匹配的后一个位置.
+var r = /x/g;
+var s = '_x_x';
+r.lastIndex // 0
+r.test(s) // true
+r.lastIndex // 2
+r.test(s) // true
+r.lastIndex // 4
+r.test(s) // false
+// 带有g修饰符时,可以通过正则对象的 lastIndex 属性指定开始搜索的位置.
+// 下面代码指定从字符串的第五个位置开始搜索,这个位置为空,所以返回false.
+// 同时,lastIndex属性重置为0,所以第二次执行r.test(s)会返回true.
+var r = /x/g;
+var s = '_x_x';
+r.lastIndex = 4;
+r.test(s) // false
+r.lastIndex // 0
+r.test(s)
+// 注意,带有g修饰符时,正则表达式内部会记住上一次的lastIndex属性,
+// 这时不应该更换所要匹配的字符串,否则会有一些难以察觉的错误.
+var r = /bb/g;
+r.test('bb') // true
+r.lastIndex // 2
+r.test('-bb-') // false 因为从位置2开始不能匹配到 bb
+r.lastIndex // 0
+r.test('-bb-') // true
+r.lastIndex // 3
+// lastIndex 属性只对同一个正则表达式有效,所以下面这样写是错误的.
+// 下面代码会导致无限循环,因为while循环的每次匹配条件都是一个新的正则表达式,
+// 导致lastIndex属性总是等于0.
+var count = 0;
+while (/a/g.test('babaa')) count++;
+// 如果正则模式是一个空字符串,则匹配所有字符串.
+new RegExp('').test('abc')
+rr.lastIndex // 0
+// true
+/**
+ * RegExp.prototype.exec()
+ * 正则实例对象的exec方法,用来返回匹配结果.如果发现匹配,就返回一个数组,成员是匹配成功的子字符串,否则返回null.
+ * exec方法的返回数组还包含以下两个属性:
+      input:整个原字符串.
+      index:整个模式匹配成功的开始位置(从0开始计数).
+ */
+var s = '_x_x';
+var r1 = /x/;
+var r2 = /y/;
+r1.exec(s) // ["x"]
+r2.exec(s) // null
+// 如果正则表示式包含圆括号(即含有“组匹配”),则返回的数组会包括多个成员.
+// 第一个成员是整个匹配成功的结果,后面的成员就是圆括号对应的匹配成功的组.
+// 也就是说,第二个成员对应第一个括号,第三个成员对应第二个括号,以此类推.
+// 整个数组的length属性等于组匹配的数量再加1.
+// 下面代码的exec方法,返回一个数组.第一个成员是整个匹配的结果,第二个成员是圆括号匹配的结果.
+var s = '_x_x';
+var r = /_(x)/;
+r.exec(s) // ["_x", "x"]
+// 下面代码中的index属性等于1,是因为从原字符串的第二个位置开始匹配成功.
+var r = /a(b+)a/;
+var arr = r.exec('_abbba_aba_');
+arr // ["abbba", "bbb"]
+arr.index // 1
+arr.input // "_abbba_aba_"
+// 如果正则表达式加上g修饰符,则可以使用多次exec方法,下一次搜索的位置从上一次匹配成功结束的位置开始.
+// 下面代码连续用了四次exec方法,前三次都是从上一次匹配结束的位置向后匹配.
+// 当第三次匹配结束以后,整个字符串已经到达尾部,匹配结果返回null,
+// 正则实例对象的lastIndex属性也重置为0,意味着第四次匹配将从头开始.
+var reg = /a/g;
+var str = 'abc_abc_abc'
+var r1 = reg.exec(str);
+r1 // ["a"]
+r1.index // 0
+reg.lastIndex // 1
+var r2 = reg.exec(str);
+r2 // ["a"]
+r2.index // 4
+reg.lastIndex // 5
+var r3 = reg.exec(str);
+r3 // ["a"]
+r3.index // 8
+reg.lastIndex // 9
+var r4 = reg.exec(str);
+r4 // null
+reg.lastIndex // 0
+// 利用g修饰符允许多次匹配的特点,可以用一个循环完成全部匹配.
+var reg = /a/g;
+var str = 'abc_abc_abc'
+while(true) {
+  var match = reg.exec(str);
+  if (!match) break;
+  console.log('#' + match.index + ':' + match[0]);
+}
+// #0:a
+// #4:a
+// #8:a
+// 正则实例对象的lastIndex属性不仅可读,还可写.设置了g修饰符的时候,
+// 只要手动设置了lastIndex的值,就会从指定位置开始匹配.

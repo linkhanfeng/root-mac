@@ -1,0 +1,32 @@
+---
+description: 概述
+tabTrigger:  std-wrap 10 sum
+scope:       source.js
+---
+/**
+ * 对象是 JavaScript 语言最主要的数据类型,
+       三种原始类型的值(数值, 字符串, 布尔值)在一定条件下,也会自动转为对象,
+       也就是原始类型的“包装对象”.
+ * 所谓“包装对象”,就是分别与数值, 字符串, 布尔值
+      相对应的Number, String, Boolean三个原生对象.
+      这三个原生对象可以把原始类型的值变成(包装成)对象.
+ * 包装对象的最大目的,
+      首先是使得 JavaScript 的对象涵盖所有的值,
+      其次使得原始类型的值可以方便地调用某些方法.
+ * 总结一下,这三个对象作为构造函数使用(带有new)时,
+      可以将原始类型的值转为对象;
+      作为普通函数使用时(不带有new),可以将任意类型的值,转为原始类型的值.
+ */
+var v1 = new Number(123);
+var v2 = new String('abc');
+var v3 = new Boolean(true);
+// 上面代码中,基于原始类型的值,生成了三个对应的包装对象.
+v1 // Number { 123 }
+typeof v1 // "object"
+v1 == 123 // true
+v1 === 123 // false
+// Number, String和Boolean如果不作为构造函数调用(即调用时不加new),
+// 常常用于将任意类型的值转为数值, 字符串和布尔值.详见《数据类型转换》一节.
+Number(true) // 1
+String(true) // "true"
+Boolean(true) // true

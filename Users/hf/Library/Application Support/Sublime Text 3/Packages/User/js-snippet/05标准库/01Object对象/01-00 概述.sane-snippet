@@ -1,0 +1,48 @@
+---
+description: Object对象概述
+tabTrigger:  std-obj 10 sum
+scope:       source.js
+---
+/**
+ * JavaScript 原生提供Object对象（注意起首的O是大写），本章介绍该对象原生的各种方法。
+ * JavaScript 的所有其他对象都继承自Object对象，即那些对象都是Object的实例。
+
+ * Object对象的原生方法分成两类：
+     Object本身的方法(静态方法)
+     Object的实例方法。
+
+ * Object作为函数的用法分成两类:
+     作为工具函数 (可以将任意值转为对象) var obj = Object(1); // Number { 1 }
+     作为构造函数 (直接通过它来生成新对象) var obj2 = new Object(); // {}
+ * 工具函数和构造函数,虽然用法相似,但是两者的语义是不同的:
+     Object(value) 表示将value转成一个对象,
+     new Object(value) 则表示新生成一个对象,它的值是value.
+ */
+Object // function Object()
+
+/**
+ * （1）静态方法    (即: Object本身的方法)
+ * 所谓”本身的方法“就是直接定义在Object对象的方法。
+ * print1 方法就是直接定义在Object对象上。
+ */
+Object.print1 = function () { console.log('我是静态方法') };
+Object.print1() // 我是静态方法
+
+/**
+ * （2）实例方法    (即: 定义在 Object.prototype 上的方法)
+ * 所谓实例方法就是定义在Object原型对象Object.prototype上的方法。它可以被Object实例直接使用。
+ */
+Object.prototype.print2 = function () { console.log('我是实例方法') };
+var obj = new Object();
+obj.print2(); // 我是实例方法
+// 相当于
+Object.prototype.print2(); // 我是实例方法
+
+/**
+ * 上面代码中，Object.prototype定义了一个print方法，
+       然后生成一个Object的实例obj。
+       obj直接继承了Object.prototype的属性和方法，可以直接使用obj.print调用print方法。
+       也就是说，obj对象的print方法实质上就是调用Object.prototype.print方法。
+ * 关于原型对象object.prototype的详细解释，参见《面向对象编程》章节。
+       这里只要知道，凡是定义在Object.prototype对象上面的属性和方法，将被所有实例对象共享就可以了。
+ */

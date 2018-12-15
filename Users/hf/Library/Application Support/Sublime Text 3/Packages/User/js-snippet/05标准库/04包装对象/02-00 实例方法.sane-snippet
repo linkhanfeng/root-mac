@@ -1,0 +1,18 @@
+---
+description: 实例方法
+tabTrigger:  std-warp 20 instance-fun
+scope:       source.js
+---
+/**
+ * 三种包装对象各自提供了许多实例方法,详见后文.
+      这里介绍两种它们共同具有, 从Object对象继承的方法:
+      valueOf和toString.
+ */
+// valueOf() 返回 包装对象实例 对应的原始类型的值.
+new Number(123).valueOf()  // 123
+new String('abc').valueOf() // "abc"
+new Boolean(true).valueOf() // true
+// toString() 返回对应的字符串形式.
+new Number(123).toString() // "123"
+new String('abc').toString() // "abc"
+new Boolean(true).toString() // "true"

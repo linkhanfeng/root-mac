@@ -1,0 +1,67 @@
+<snippet><description>finally 结构</description><tabTrigger>gar-error finally</tabTrigger><scope>source.js</scope><content><![CDATA[
+/**
+ * try...catch结构允许在最后添加一个finally代码块，
+ * 表示不管是否出现错误，都必需在最后运行的语句。
+ * 下面是finally代码块用法的典型场景。
+ */
+openFile(); // 首先打开一个文件，
+try {
+  writeFile(Data); // 1. 然后在try代码块中写入文件，
+} catch(e) {
+  handleError(e); // 2.1 如果发生错误，则先使用catch代码块处理错误，再使用finally代码块关闭文件。
+} finally {
+  closeFile(); // 2.2 如果没有发生错误，则运行finally代码块关闭文件；
+}
+
+/**
+ * 下面的例子充分反映了try...catch...finally这三者之间的执行顺序。
+ * 简单来说: catch 代码块中 return 和 throw 语句会直接触发 finally 语句;
+ */
+function f() {
+  try {
+    console.log(0);
+    throw 'bug';
+  } catch(e) {
+    console.log(1);
+    return true; // 会被覆盖, 这句原本会延迟到 finally 代码块结束再执行
+    console.log(2); // 不会运行,因为 return
+  } finally {
+    console.log(3);
+    return false; // 这句会覆盖掉前面那句 return
+    console.log(4); // 不会运行, 因为 return
+  }
+
+  console.log(5); // 不会运行
+}
+
+var foo = f();
+// 0
+// 1
+// 3
+foo // 变量 foo 的值为 false
+
+/**
+ * throw 语句也会直接触发 finally 语句;
+ */
+function f() {
+  try {
+    throw '出错了！';
+  } catch(e) {
+    console.log('捕捉到内部错误');
+    throw e; // 这句原本会等到finally结束再执行; throw 触发了 finally 语句, finally 代码块中直接返回了,这句没有运行
+    // 上一句 throw e; 替换为 return true; // 也不会运行, 因为他们两个都会直接触发 finally 语句
+  } finally {
+    // return false; // 直接返回
+  }
+}
+
+try {
+  f();
+} catch(e) {
+  // 此处不会执行
+  console.log('caught outer "bogus"');
+}
+
+// 捕捉到内部错误
+// false
+]]></content></snippet>

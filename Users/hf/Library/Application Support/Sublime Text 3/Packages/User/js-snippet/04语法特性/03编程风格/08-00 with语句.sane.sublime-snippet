@@ -1,0 +1,6 @@
+<snippet><description>with不要使用</description><tabTrigger>gra-style 08 with</tabTrigger><scope>source.js</scope><content><![CDATA[
+/**
+ * 推荐: (不要使用 with)
+ * with 操作对象属性,可以减少代码的书写，但是会造成混淆。
+ */
+]]></content></snippet>

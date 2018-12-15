@@ -1,0 +1,14 @@
+<snippet><description>使用严格相等</description><tabTrigger>gra-style 09 eq</tabTrigger><scope>source.js</scope><content><![CDATA[
+/**
+ * 推荐: [使用严格相等]
+ * 相等运算符会自动转换变量类型，造成很多意想不到的情况。
+ */
+// 相等的不确定性例子:
+0 == ''// true
+1 == true // true
+2 == true // false
+0 == '0' // true
+false == 'false' // false
+false == '0' // true
+' \t\r\n ' == 0 // true
+]]></content></snippet>

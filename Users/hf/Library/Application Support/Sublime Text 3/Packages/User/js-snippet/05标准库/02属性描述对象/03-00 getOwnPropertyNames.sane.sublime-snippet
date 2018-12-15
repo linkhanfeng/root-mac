@@ -1,0 +1,24 @@
+<snippet><description>get全部属性名</description><tabTrigger>std-attr 30 getOwnPropertyNames</tabTrigger><scope>source.js</scope><content><![CDATA[
+/**
+ * Object.getOwnPropertyNames方法返回一个数组，成员是参数对象自身的全部属性的属性名，不管该属性是否可遍历。
+ */
+var obj = Object.defineProperties({}, {
+  p1: { value: 1, enumerable: true },
+  p2: { value: 2, enumerable: false }
+});
+// obj.p1是可遍历的，obj.p2是不可遍历的。Object.getOwnPropertyNames会将它们都返回。
+Object.getOwnPropertyNames(obj) // Array [ "p1", "p2" ]
+
+/**
+ * 与 Object.keys 的不同:
+     这跟Object.keys的行为不同，Object.keys只返回对象自身的可遍历属性的全部属性名。
+ */
+// 数组自身的length属性是不可遍历的，Object.keys不会返回该属性。
+Object.keys([]) // []
+Object.getOwnPropertyNames([]) // [ 'length' ]
+
+// Object.prototype也是一个对象，所有实例对象都会继承它，它自身的属性都是不可遍历的
+Object.keys(Object.prototype) // []
+Object.getOwnPropertyNames(Object.prototype)
+// Array(13) [ "toSource", "toString", "toLocaleString", "valueOf", "hasOwnProperty", "isPrototypeOf", "propertyIsEnumerable", "__defineGetter__", "__defineSetter__", "__lookupGetter__", … ]
+]]></content></snippet>

@@ -1,0 +1,15 @@
+---
+description: debugger 打断点
+tabTrigger:  gar-console 40 debugger
+scope:       source.js
+---
+/**
+ * debugger 打断点
+   debugger语句主要用于除错，作用是设置断点。如果有正在运行的除错工具，程序运行到debugger语句时会自动停下。
+   如果没有除错工具，debugger语句不会产生任何结果，JavaScript 引擎自动跳过这一句。
+   Chrome firfox 浏览器中，当代码运行到debugger语句时，就会暂停运行，自动打开脚本源码界面。
+ */
+for(var i = 0; i < 5; i++){
+  console.log(i);
+  if (i === 2) debugger;
+}

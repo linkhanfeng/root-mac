@@ -1,0 +1,14 @@
+<snippet><description>分号,仅3种情况下可省略</description><tabTrigger>gra-style 05 semicolon</tabTrigger><scope>source.js</scope><content><![CDATA[
+/**
+ * 建议: [不要省略分号]
+ * 除了: 下面三种情况
+ * 1. 循环语句: for 和 while (注意: do...while必须要分号)
+ * 2. 分支语句：if，switch，try
+ * 3. 函数的声明语句
+ */
+
+/**
+ * 分号自动添加, 情况多变, 不要依赖自动添加
+     有些代码压缩软件,如果没有分号,压缩的效果不好
+ */
+]]></content></snippet>

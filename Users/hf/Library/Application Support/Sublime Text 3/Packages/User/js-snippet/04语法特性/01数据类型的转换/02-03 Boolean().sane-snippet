@@ -1,0 +1,22 @@
+---
+description: 强制转换为 bool
+tabTrigger:  gra-conv 23 Boolean()
+scope:       source.js
+---
+/**
+ * 转换规则相对简单：
+     除了以下五个值的转换结果为false，
+     其他的值全部为true。
+ */
+Boolean(undefined) // false
+Boolean(null) // false
+Boolean(0) // false
+Boolean(NaN) // false
+Boolean('') // false
+
+/**
+ * 注意，所有对象（包括空对象）的转换结果都是true
+ */
+Boolean({}) // true
+Boolean([]) // true
+Boolean(new Boolean(false)) // true

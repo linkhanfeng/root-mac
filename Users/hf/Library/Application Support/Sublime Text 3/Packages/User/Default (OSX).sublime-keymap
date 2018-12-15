@@ -1,0 +1,61 @@
+[
+    // 逻辑: ctrl, ctrl+shift 操作光标;
+    // alt左右代替:home和end; alt上下代替:pageup和pageDown; alt+shift 文档开头结尾
+    // super+shift 操作行
+    // 上下移动一行,左右一单元,移动光标
+    { "keys": ["ctrl+h"], "command": "move", "args": {"by": "subwords", "forward": false} },
+    { "keys": ["ctrl+l"], "command": "move", "args": {"by": "subword_ends", "forward": true} },
+    { "keys": ["ctrl+j"], "command": "move", "args": {"by": "lines", "forward": true} },
+    { "keys": ["ctrl+k"], "command": "move", "args": {"by": "lines", "forward": false} },
+    // 上下移动一行,左右一单元,移动光标并选择
+    { "keys": ["ctrl+shift+h"], "command": "move", "args": {"by": "subwords", "forward": false, "extend": true} },
+    { "keys": ["ctrl+shift+l"], "command": "move", "args": {"by": "subword_ends", "forward": true, "extend": true} },
+    { "keys": ["ctrl+shift+j"], "command": "move", "args": {"by": "lines", "forward": true, "extend": true} },
+    { "keys": ["ctrl+shift+k"], "command": "move", "args": {"by": "lines", "forward": false, "extend": true} },
+    // 行首行尾, 选择到行首行尾
+    { "keys": ["alt+h"], "command": "move_to", "args": {"to": "bol", "extend": false} },
+    { "keys": ["alt+l"], "command": "move_to", "args": {"to": "eol", "extend": false} },
+    { "keys": ["alt+shift+h"], "command": "move_to", "args": {"to": "bol", "forward": false, "extend": true} },
+    { "keys": ["alt+shift+l"], "command": "move_to", "args": {"to": "eol", "forward": true, "extend": true} },
+    // 开头结尾, 滚动向开头结尾
+    { "keys": ["alt+j"], "command": "scroll_lines", "args": {"amount": -10.0} },
+    { "keys": ["alt+k"], "command": "scroll_lines", "args": {"amount": 10.0} },
+    { "keys": ["alt+shift+j"], "command": "move_to", "args": {"to": "eof", "extend": false} },
+    { "keys": ["alt+shift+k"], "command": "move_to", "args": {"to": "bof", "extend": false} },
+    // super,h,l
+    { "keys": ["super+h"], "command": "move", "args": {"by": "characters", "forward": false} },
+    { "keys": ["super+l"], "command": "move", "args": {"by": "characters", "forward": true} },
+    { "keys": ["super+shift+h"], "command": "move", "args": {"by": "characters", "forward": false, "extend": true} },
+    { "keys": ["super+shift+l"], "command": "move", "args": {"by": "characters", "forward": true, "extend": true} },
+    // 上下移动行, 删除行, 复制行
+    { "keys": ["super+shift+j"], "command": "swap_line_down" },
+    { "keys": ["super+shift+k"], "command": "swap_line_up" },
+    // { "keys": ["super+shift+c"], "command": "duplicate_line" },
+    { "keys": ["super+shift+c"], "command": "expand_selection", "args": {"to": "line"} },
+    { "keys": ["super+shift+d"], "command": "run_macro_file", "args": {"file": "res://Packages/Default/Delete Line.sublime-macro"} },
+    // 在文件浏览器,和侧边栏中显示
+    { "keys": ["super+shift+e"], "command": "open_dir", "args": {"dir": "$file_path", "file": "$file_name"} },
+    // { "keys": ["super+shift+r"], "command": "chain", "args": { "commands": [["reveal_in_side_bar"], ["focus_side_bar"]] } },
+    { "keys": ["super+shift+r"], "command": "reveal_focus_side_bar" },
+    // 多点编辑
+    { "keys": ["super+ctrl+;"], "command": "split_selection_into_lines" },
+    { "keys": ["super+ctrl+j"], "command": "select_lines", "args": {"forward": true} },
+    { "keys": ["super+ctrl+k"], "command": "select_lines", "args": {"forward": false} },
+    // delete
+    { "keys": ["super+backspace"], "command": "delete_word", "args": { "forward": true, "sub_words": true } },
+    { "keys": ["super+shift+backspace"], "command": "right_delete" },
+    // 覆盖插件快捷键
+    { "keys": ["super+;"], "command": "ace_jump_word" },
+    { "keys": ["ctrl+;"], "command": "ace_jump_char" },
+    // 翻译
+    { "keys": ["super+alt+g"], "command": "google_translate" },
+    // fileManger
+    { "keys": ["super+n"], "command": "fm_create" },
+    { "keys": ["super+shift+n"], "command": "new_file" },
+    { "keys": ["super+i", "super+b"], "command": "open_file_in_brower" },
+    // 其他
+    { "keys": ["super+m"], "command": "catalog_language" },
+    { "keys": ["super+minus"], "command": "jump_back" },
+    { "keys": ["super+plus"], "command": "jump_forward" },
+    // { "keys": ["super+shift+v"], "command": "paste_and_indent" },
+]

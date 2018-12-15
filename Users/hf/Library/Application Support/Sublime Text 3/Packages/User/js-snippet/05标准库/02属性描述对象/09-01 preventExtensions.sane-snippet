@@ -1,0 +1,26 @@
+---
+description: 无法新增属性
+tabTrigger:  std-attr 91 extensions
+scope:       source.js
+---
+/**
+ * Object.preventExtensions()
+ * 可以使得一个对象无法再添加新的属性。
+ */
+var obj = new Object();
+Object.preventExtensions(obj);
+Object.defineProperty(obj, 'p', { value: 'hello' }); // TypeError: Cannot define property:p, object is not extensible.
+obj.p = 1;
+obj.p // undefined
+
+/**
+ * Object.isExtensible 方法用于检查一个对象是否使用了 Object.preventExtensions 方法。
+     也就是说，检查是否可以为一个对象添加属性。
+     true 没有使用 preventExtensions 方法, 可以新增属性
+ */
+var obj = new Object();
+
+Object.isExtensible(obj) // true
+Object.preventExtensions(obj);
+Object.isExtensible(obj) // false
+

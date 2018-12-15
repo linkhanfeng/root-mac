@@ -1,0 +1,20 @@
+<snippet><description>判断某个属性可否遍历</description><tabTrigger>std-attr 50 propertyIsEnum...</tabTrigger><scope>source.js</scope><content><![CDATA[
+/**
+ * 判断某个属性是否可遍历
+ * 实例对象的propertyIsEnumerable()方法返回一个布尔值，
+     用来判断某个属性是否可遍历。
+     注意，这个方法只能用于判断对象自身的属性，对于继承的属性一律返回false。
+ *
+ */
+
+var obj = {};
+obj.p = 123;
+obj = Object.defineProperty(obj, 'p2', {
+  value: 999,
+  writable: true,
+  enumerable: false,
+});
+
+obj.propertyIsEnumerable('p') // true
+obj.propertyIsEnumerable('toString') // false  obj.toString是继承的属性。
+]]></content></snippet>

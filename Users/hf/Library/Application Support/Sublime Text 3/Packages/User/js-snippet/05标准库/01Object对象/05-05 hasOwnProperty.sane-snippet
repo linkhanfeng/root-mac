@@ -1,0 +1,16 @@
+---
+description: 判断对象是否有某属性
+tabTrigger:  std-obj 55 hasOwnProperty
+scope:       source.js
+---
+/**
+ * 判断实例对象自身是否具有该属性
+ * Object.prototype.hasOwnProperty方法接受一个字符串作为参数，返回一个布尔值，表示该实例对象自身是否具有该属性。
+ */
+var obj = {
+  p: 123
+};
+
+obj.hasOwnProperty('p') // true
+obj.hasOwnProperty('toString') // false toString属性是继承的，所以返回false。
+// Object.prototype.hasOwnProperty.call(obj,'p') // true

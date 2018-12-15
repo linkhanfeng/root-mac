@@ -1,0 +1,73 @@
+---
+description: 自动转换类型规则
+tabTrigger:  gra-conv 30 auto
+scope:       source.js
+---
+/**
+ * 自动转换是以强制转换为基础的,
+     遇到以下三种情况时，JavaScript 会自动转换数据类型
+ */
+
+// 第一种情况，不同类型的数据互相运算。
+123 + 'abc' // "123abc"
+// 第二种情况，对非布尔值类型的数据求布尔值。
+if ('abc') console.log('hello') // "hello"
+// 第三种情况，对非数值类型的值使用一元运算符（即+和-）。
++ {foo: 'bar'} // NaN
+- [1, 2, 3] // NaN
+- [3] // -3 参见自动转换 Number() 函数
+- true // -1
+
+/**
+ * 自动转换为布尔值
+ * JavaScript 遇到预期为布尔值的地方（比如if语句的条件部分）
+     就会将非布尔值的参数自动转换为布尔值。
+     系统内部会自动调用Boolean函数。
+ */
+// 因此除了以下五个值，其他都是自动转为true。
+if ( !undefined && !null && !0 && !NaN && !'') {
+  console.log('true');
+} // true
+// 下面两种写法，有时也用于将一个表达式转为布尔值。它们内部调用的也是Boolean函数。
+// 写法一
+expression ? true : false
+// 写法二
+!! expression
+
+/**
+ * 自动转换为字符串
+ * 字符串的自动转换，主要发生在字符串的加法运算时。
+     当一个值为字符串，另一个值为非字符串，
+     则非字符串转为字符串。
+ */
+'5' + 1 // '51'
+'5' + true // "5true"
+'5' + false // "5false"
+'5' + {} // "5[object Object]"
+'5' + [] // "5"
+'5' + function (){} // "5function (){}"
+'5' + undefined // "5undefined"
+'5' + null // "5null"
+1 + 2 + '1' // "31"
+
+/**
+ * 自动转换为数值
+ * 系统内部会自动调用Number函数。
+ */
+'5' - '2' // 3
+'5' * '2' // 10
+true - 1  // 0
+false - 1 // -1
+'1' - 1   // 0
+'5' * []    // 0
+false / '5' // 0
+'abc' - 1   // NaN
+// 注意：null转为数值时为0，而undefined转为数值时为NaN。
+null + 1 // 1
+undefined + 1 // NaN
+// 除了加法运算符（+）有可能把运算子转为字符串，其他运算符都会把运算子自动转成数值。
+// 一元运算符也会把运算子转成数值。
++'abc' // NaN
+-'abc' // NaN
++true // 1
+-false // 0
