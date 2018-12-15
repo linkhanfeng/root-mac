@@ -3,7 +3,5 @@
 
 # Don't ignore
 !.gitignore
-!/Users/hf/Library/Application Support/Sublime Text 3/Packages/User
-!/Users/hf/Library/Application Support/Sublime Text 3/Packages/User/*
-!/Users/hf/Library/Application Support/Sublime Text 3/Packages/FileManager
-!/Users/hf/Library/Application Support/Sublime Text 3/Packages/FileManager/*
+!Users/hf/Library/Application Support/Sublime Text 3/Packages/User
+!Users/hf/Library/Application Support/Sublime Text 3/Packages/FileManager
