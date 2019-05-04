@@ -3,4 +3,46 @@ description: JSON对象
 tabTrigger:  std 11 json
 scope:       source.js
 ---
-目录
+## JSON 语法格式
+1.  原始类型只有四种:字符串,十进制数值,布尔值,null
+2.  复合类型只有两种:对象,数组
+3.  字符串:只能放双引号中;
+4.  对象键:只能放双引号中;
+5.  数组或对象最后一个成员后面不能有逗号
+
+## JSON 对象
+是 js 的原生对象,用来处理 json 格式的数据; 一共有两个静态方法: stringify, parse
+
+## JSON.stringify()
+### 基本用法
+1.  注意，对于原始类型的字符串，转换结果会带 `转义后的双引号`。
+    ```js
+    JSON.stringify(false) // "false"
+    JSON.stringify('false') // "\"false\""
+    ```
+    双引号转义的原因:如果不转义 `""false""`; 在json语法看来是: "",false和""三部分;语法错误;
+    如果"'fasle'"; 在json看来是:语法错误,因为字符串只能由 双引号表示;
+    这是因为将来还原的时候，内层双引号可以让 JavaScript 引擎知道，这是一个字符串，而不是其他类型的值。
+    上面代码中，如果不是内层的双引号，将来还原的时候，引擎就无法知道原始值是布尔值还是字符串。
+2.  注意数组和对象中: undefined、函数或 XML 对象, 和正则对象的处理
+    ```js
+    JSON.stringify( {a: undefined} ) // "{}"
+    JSON.stringify( [undefined] ) // "[null]"
+    JSON.stringify(/foo/) // "{}"
+    ```
+    对象会直接忽略,数组处理为null,正则处理为空对象
+3.  会忽略对象的不可遍历属性(enumerable:false)
+### 第二个参数
+1.  第二个参数,可以规定对象的哪些键值对可以被转换;
+    ```js
+    JSON.stringify({a: 1, b:2}, ['a']); // "{\"a\":1}"
+    ```
+2.  还可以是一个函数,用来更改返回值
+    ```js
+    function f(key, value) {
+      if (typeof value === "number") { value = 2 * value;}
+      return value;
+    }
+    JSON.stringify({ a: 1, b: 2 }, f)
+    // '{"a": 2,"b": 4}'
+    ```

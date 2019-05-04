@@ -8,6 +8,12 @@ import subprocess
 import urllib
 import yaml
 import re
+import webbrowser
+import json
+
+
+# import urllib.parse
+# import urllib.request
 
 # index
 # 复制文件名称
@@ -25,7 +31,7 @@ import re
 # 自动创建书籍目录
 # 自动创建书籍目录Plus
 # 1. 事件监听器
-# 1.1 markdown文件链接路径自动补全 + markdown文件保存前自动更新修改时间
+# 1.1 markdown文件链接路径自动补全 + markdown文件保存前自动更新修改时间 + 参考地址创建
 # 1.2 html-css-js-json保存时格式化代码
 # 标签页激活时自动reveal_in_side_bar
 # 粘贴时格式化文本并paste_and_indent
@@ -97,21 +103,58 @@ class InsertMarkdownMetaCommand(sublime_plugin.TextCommand):
             yamlObj['updated'] = curIsoTime
             # 更新标题
             titleRg = self.view.find('# ', 0, sublime.LITERAL)
+            if not titleRg:
+                return
             titleLineStr = self.view.substr(self.view.line(titleRg)).replace('# ', '')
-            # print(23333,titleLineStr)
-            yamlObj['title'] = titleLineStr
+            if yamlObj['title'] != titleLineStr:
+                yamlObj['title'] = titleLineStr
+                yamlObj['titleen'] = translater(titleLineStr)
+
             # yaml_d_str = yaml.dump(yamlObj)
             yaml_d_str = yaml.dump(yamlObj, allow_unicode=True, explicit_start=True, explicit_end=True)
             self.view.replace(edit, sublime.Region(0, endYamlRg.a), yaml_d_str)
             # 更新 toc
             self.view.run_command('markdowntoc_update')
+            # 更新参考链接 如果参考链接变更的话
+            isRefLink = self.view.find('\n## 参考\n', 0, sublime.LITERAL)
+            if isRefLink.a > 10:
+                view_size = self.view.size()
+                ref_str = self.view.substr(sublime.Region(isRefLink.a + 1, view_size))
+                ref_arr = ref_str.strip().split("\n")
+                while '' in ref_arr:
+                    ref_arr.remove('')
+
+                if ref_arr[1] != '' and '[]' in ref_arr[1]:
+                    ref_arr[1] = ''
+                    ref_arr.insert(2, '')
+                else:
+                    ref_arr.insert(1, '')
+                    ref_arr.insert(2, '')
+
+                url_str = ''
+                for i in ref_arr:
+                    index = ref_arr.index(i)
+                    if index > 2:
+                        if '](' in i:
+                            url_arr = re.findall("\\[(.*)\\]\\((.*)\\)",i)[0]
+                            ref_arr[index] = "[{}]:{}".format(url_arr[0], url_arr[1])
+                        else:
+                            url_arr = re.findall("\\[(.*)\\]:(.*)",i)[0]
+                        url_str = url_str + '[{}][] | '.format(url_arr[0])
+                ref_arr[1] = url_str.rstrip(' | ')
+                ref_arr.append('')
+                ref_new_str = "\n".join(ref_arr)
+                self.view.replace(edit, sublime.Region(isRefLink.a + 1, view_size), ref_new_str)
         else:
             # 获取 tag, 根据目录结构在插入时
             tagsList = []
             fileInfo = fileInfoObj(self.view.file_name())
             filename = fileInfo['name']
             filePathList = fileInfo['path'].strip('/').split('/')
-            noteIndex = filePathList.index('note')
+            if 'note' in filePathList:
+                noteIndex = filePathList.index('note')
+            else:
+                noteIndex = -1
             if noteIndex > -1:
                 if 'mysql-doc' in filePathList:
                     # mysql_doc_Index 仅仅是mysql文档的设置不让章节目录添加到标签 (可以删除)
@@ -126,11 +169,17 @@ class InsertMarkdownMetaCommand(sublime_plugin.TextCommand):
 
             metaObj = {
                 'title': filename,
+                'titleen': '',
                 'date': curIsoTime,
                 'updated': curIsoTime,
                 'tags': tagsList,
+                'categories': tagsList,
             }
-            yamlStr = yaml.dump(metaObj, allow_unicode=True, explicit_start=True, explicit_end=True)
+            class NoAliasDumper(yaml.Dumper):
+                def ignore_aliases(self, data):
+                    return True
+
+            yamlStr = yaml.dump(metaObj, Dumper=NoAliasDumper, allow_unicode=True, explicit_start=True, explicit_end=True)
             # yamlStr = yaml.dump(metaObj).encode('utf-8').decode('unicode_escape')
             # print(yamlStr)
             self.view.insert(edit, 0, yamlStr + '---\n')
@@ -152,17 +201,54 @@ class InsertMarkdownMetaCommand(sublime_plugin.TextCommand):
 
             indexpath = isFileExit(fileInfo['path'] + '/', 'index.md')
             if indexpath:
-                self.view.insert(edit, self.view.size(), '[回到目录]({})\n\n'.format(indexpath))
+                self.view.insert(edit, self.view.size(), '[回到系列教程主目录]({})\n\n'.format(indexpath))
+
+def translater(src):
+    targetUrl = 'http://translate.google.cn/translate_a/single'
+    # isEn = re.findall('[a-zA-Z0-9]+',src)
+    isEn = False
+
+    getp = {'client':'gtx', 'sl':'en', 'tl':'zh-CN', 'dt':'t', 'q': urllib.parse.quote(src)}
+    if isEn:
+        getp['sl'] = 'en'
+        getp['tl'] = 'zh-CN'
+    else:
+        getp['sl'] = 'zh-CN'
+        getp['tl'] = 'en'
+
+    pstr = ''
+    for k,v in getp.items():
+        fixstr = ('?' if pstr == '' else '&')
+        pstr =  pstr + fixstr + k +  '=' + v
+
+    qUrl = targetUrl + pstr
+
+    urlP = urllib.request.Request(qUrl)
+    urlP.add_header('User-Agent', 'Mozilla/6.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/8.0 Mobile/10A5376e Safari/8536.25')
+
+    f = urllib.request.urlopen(urlP)
+    data = f.read()
+    jsonResultString = data.decode()
+    jsonResult = json.loads(jsonResultString)
+    # 得到翻译文本
+    dst = jsonResult[0][0][0]
+    return dst
 
 # 在浏览器中打开文件
 class OpenFileInBrowerCommand(sublime_plugin.TextCommand):
     def run(self, edit, **kwargs):
-
         path = kwargs.get('url', None)
         if not path:
             path = self.view.file_name()
-        pathUrl = 'file:///' + urllib.parse.quote(path)
-        sublime.run_command('open_url', {'url': pathUrl})
+        else:
+            if ('https://' in path) or ('http://' in path) or ('www.' in path):
+                # pathUrl = urllib.parse.quote(path)
+                pathUrl =  re.findall("(((http://)|(www)|(https://)){1}.*)", path)[0][0]
+                print(path, pathUrl)
+                webbrowser.open_new_tab( pathUrl )
+            else:
+                pathUrl = 'file:///' + urllib.parse.quote(path)
+                sublime.run_command('open_url', {'url': pathUrl})
 
 # 删除sublime项目
 class ProjectRemoveCommand(sublime_plugin.WindowCommand):
@@ -330,13 +416,24 @@ class RevealFocusSideBarCommand(sublime_plugin.WindowCommand):
 # 打开最近常用的文件和目录
 class OpenRecentCommand(sublime_plugin.WindowCommand):
     def run(self):
-        items = [
-            '/Users/hf/work/',
-            '/Users/hf/work/github/note/',
-            '/Users/hf/work/env/laradock/',
-            '/Users/hf/Library/Application Support/Sublime Text 3/Packages/User',
-            '/Users/hf/Library/Application Support/Sublime Text 3/Packages/User/file_action.py',
+        project_dirs = [
+            {'path': '/Users/hf/work', 'num': 6},
+            {'path': '/Users/hf/Library/Application Support/Sublime Text 3/Packages/User', 'num': 8},
         ]
+        filelist = []
+        dirlist = []
+        for pdir in project_dirs:
+            for root, dirs, files in os.walk(pdir['path']):
+                if root.count('/') > pdir['num'] or os.path.basename(root).startswith('.') or '/env/laradock' in root:
+                    continue
+                dirlist.append(root)
+                # print(root)
+                for file in files:
+                    if not file.startswith('.'):
+                        filelist.append(root + '/' + file)
+                        print(root + '/' + file)
+        items = dirlist + filelist
+
         def on_done(idx):
             # print(items[idx])
             absolute_path = items[idx]
@@ -417,10 +514,11 @@ def files_tree(startpath, yamlstr=True, yamlobj=None, isprint=None):
         for root, dirs, files in sorted(os.walk(startpath)):
             level = root.replace(startpath, '').count(os.sep)
             indent = ' ' * 4 * (level) + '- '
-            print('{}{}/'.format(indent, os.path.basename(root)))
+            # print('{}{}/'.format(indent, os.path.basename(root)))
             subindent = ' ' * 4 * (level + 1)  + '- '
             for f in sorted(files):
-                print('{}{}'.format(subindent, f))
+                pass
+                # print('{}{}'.format(subindent, f))
         return ''
 
 class GetDirToClipboardCommand(sublime_plugin.TextCommand):
@@ -467,7 +565,7 @@ class FormatFromSelCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         selList = self.view.sel()
         clipboardTxt = sublime.get_clipboard()
-        print(clipboardTxt)
+        # print(clipboardTxt)
 
 # 自动创建书籍目录
 class AutoMakeCatlogCommand(sublime_plugin.TextCommand):
@@ -615,12 +713,12 @@ class AutoDoSameThingOnSave(sublime_plugin.EventListener):
             return
         view.run_command('htmlprettify')
 
-# 标签页激活时自动reveal_in_side_bar
-class AutoDoSameThingOnSave(sublime_plugin.EventListener):
-    def on_activated_async(self,view):
-        if not view.window():
-            return
-        view.window().run_command("reveal_in_side_bar")
+# 标签页激活时自动 reveal_in_side_bar
+# class AutoDoSameThingOnSave(sublime_plugin.EventListener):
+#     def on_activated_async(self,view):
+#         if not view.window():
+#             return
+#         view.window().run_command("reveal_in_side_bar")
 
 # 鼠标经过链接地址选择打开链接的方式
 class SmartOpenLink(sublime_plugin.ViewEventListener):
@@ -635,23 +733,24 @@ class SmartOpenLink(sublime_plugin.ViewEventListener):
 
         if 'underline.link.markdown' in point_scope_name:
             line_str = self.view.substr(line)
-            fullurl = re.findall("(.*)\\[(.*)\\]\\((.*)\\)",line_str)[0]
-            urlandtitle = re.findall("(.*) ['\"](.*)['\"]", fullurl[2])[0]
-            relative_path = urlandtitle[0]
             curPaths = fileInfoObj(self.view.file_name())
-            absolute_path = os.path.normpath(curPaths['path'] + '/' + relative_path)
 
+            fullurl = re.findall("(.*)?\\[(.*)\\][\\:\\(]?([^# \\)]*)(#?[^ \\)]*)?[ \'\"]*([^ \'\"\\)]*)?[\'\"\\)]*", line_str)[0]
+            absolute_path = os.path.normpath(curPaths['path'] + '/' + fullurl[2])
             url = {
-                'desc': fullurl[1],
-                'link': urlandtitle[0],
+                'desc': fullurl[0],
+                'link': fullurl[2],
                 'absolute': absolute_path,
-                'title': urlandtitle[1],
+                'title': fullurl[4],
             }
             items = ['In Browser', 'In Sublime', 'In Finder']
 
             def on_done(index):
                 if index == 0:
-                    self.view.run_command('open_file_in_brower', {'url': url['absolute']})
+                    if ('https://' in url['link']) or ('http://' in url['link']) or ('www.' in url['link']):
+                        self.view.run_command('open_file_in_brower', {'url': url['link']})
+                    else:
+                        self.view.run_command('open_file_in_brower', {'url': url['absolute']})
                 if index == 1:
                     self.view.window().open_file(url['absolute'])
                 if index == 2:
@@ -663,3 +762,18 @@ class SmartOpenLink(sublime_plugin.ViewEventListener):
             self.view.show_popup_menu(items, on_done)
 
 
+# CamelCase  kebab-case 驼峰法转化
+class CamelCaseCommand(sublime_plugin.TextCommand):
+    def run(self, edit):
+        # extract-text-webpack-plugin
+        selList = self.view.sel()
+        sNum = 0
+        for selRegion in selList:
+            tTxt = self.view.substr(selRegion)
+            print(11111, tTxt)
+            # self.view.replace(edit, sublime.Region(tagsStrRg.a), "updated: '{0}'\n".format(curIsoTime))
+            isKebab = re.split("\\-", tTxt)
+            resourceStr = ''
+            for i in isKebab:
+                resourceStr += i.capitalize()
+            self.view.replace(edit,  sublime.Region(selRegion.a, selRegion.b), resourceStr)

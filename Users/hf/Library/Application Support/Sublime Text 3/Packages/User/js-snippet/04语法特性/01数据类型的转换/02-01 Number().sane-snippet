@@ -47,8 +47,16 @@ var obj = {x: 1};
 Number(obj) // NaN
 
 // 等同于
-if (typeof obj.valueOf() === 'object') {
-  Number(obj.toString());
-} else {
+if (typeof obj.valueOf() === 'object')
+{
+  if (typeof obj.toString() === 'object')
+  {
+    throw new Error('无法自动转换');
+  } else {
+    Number(obj.toString());
+  }
+}
+else
+{
   Number(obj.valueOf());
 }

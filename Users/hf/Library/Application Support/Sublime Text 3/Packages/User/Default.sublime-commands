@@ -70,7 +70,10 @@
     {
         "caption": "hf: get info",
         "command": "get_info"
+    },
+    {
+        "caption": "hf: camel case",
+        "command": "camel_case"
     }
 
 ]
-

@@ -7,7 +7,8 @@
   {
     "space_after_anon_function": true,
     "space_before_conditional": true,
-    "space_in_paren": false,
+    // "space_in_paren": true,
+    "keep_array_indentation": true,
     // "break_chained_methods": true,
   },
 }
